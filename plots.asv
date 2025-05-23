@@ -1,0 +1,49 @@
+% Plot prices
+plot(data.Date,prices,'LineWidth', 1.2)
+hold on
+
+% Re-label axes to match log scale
+realTicks = [10 100 1000 10000 100000 1000000];
+logTicks = log10(realTicks);
+yticks(logTicks);
+yticklabels(string(realTicks/1000)+'K $');
+ylim([0 log10(1100000)])
+
+title("BTC Price History Log Chart")
+grid
+
+plot(fitcurve,'r','LineWidth',1.2)
+plot(bounds, 'r--','LineWidth',1.2);
+
+xline(datetime('28/11/2012', 'InputFormat', 'dd/MM/yyyy'), 'k--', 'I Halving','LabelVerticalAlignment', 'bottom');
+xline(datetime('09/07/2016', 'InputFormat', 'dd/MM/yyyy'), 'k--', 'II Halving','LabelVerticalAlignment', 'bottom');
+xline(datetime('11/10/2020', 'InputFormat', 'dd/MM/yyyy'), 'k--', 'III Halving','LabelVerticalAlignment', 'bottom');
+xline(datetime('20/04/2024', 'InputFormat', 'dd/MM/yyyy'), 'k--', 'IV Halving','LabelVerticalAlignment', 'bottom');
+xline(datetime('27/03/2028', 'InputFormat', 'dd/MM/yyyy'), 'k--', 'V Halving','LabelVerticalAlignment', 'bottom');
+
+
+legend("BTC Price","Fit curve","Prediction Bounds (90%)","","","","","")
+
+
+figure
+% Get fit curves of previous halvings
+fitcurve2016 = load("fitcurve2016.mat").fitcurve;
+bou = load("fitcurve2016.mat").fitcurve;
+
+fitcurve2016 = fitcurve2016(1:length(fitcurve));
+
+plot(data.Date,zeros(1,length(data.Date)))
+hold on
+plot(fitcurve,'r')
+plot(bounds,'r--');
+plot(fitcurve2016,'k','LineWidth',1.2)
+
+ 
+% Re-label axes to match log scale
+realTicks = [10 100 1000 10000 100000 1000000];
+logTicks = log10(realTicks);
+yticks(logTicks);
+yticklabels(string(realTicks/1000)+'K $');
+ylim([0 log10(1100000)])
+title("Fit Curves comparison")
+grid
